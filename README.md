@@ -111,7 +111,6 @@ how a real document might look like.
 - [`hyperref`](https://ctan.org/pkg/hyperref)
 - [`metalogo`](https://ctan.org/pkg/metalogo)
 
-
 For pdfTeX users:
 
 - [`ebgaramond`](https://ctan.org/pkg/ebgaramond)
@@ -152,6 +151,61 @@ use an adjusted `\supercite` command such as this one:
 
 Thanks to Carlo Botha for this contribution!
 
+# Extensions
+
+## Table of contents per chapter
+
+If you want a small table of contents for each chapter, update
+`mimosis.cls` as follows:
+
+```latex
+\usepackage[automark,headsepline,plainheadsepline]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\automark[section]{chapter}
+
+\lehead*{\headmark}
+\cehead{}
+\rehead{\headmark}
+
+\lohead{\headmark}
+\cohead{}
+\rohead*{\headmark}
+
+\newpairofpagestyles[scrheadings]{chapter}{%
+	\KOMAoptions{headsepline=false,plainheadsepline=false}%
+	\ihead*{}%
+	\ohead*{}%
+}
+
+\newpairofpagestyles[scrheadings]{part}{%
+	\KOMAoptions{headsepline=false,plainheadsepline=false}%
+	\ihead*{}%
+	\ohead*{}%
+}
+
+\renewcommand*\chapterpagestyle{chapter}
+
+\renewcommand*\partpagestyle{part}
+```
+
+This extension was contributed by [Nikos Antoniadis](https://github.com/nikosantoniadis) in [issue 16](https://github.com/Pseudomanifold/latex-mimosis/issues/16).
+If you want to add this as proper extension or configurable parameter,
+please let me know!
+
+# Frequently asked questions (FAQ)
+
+1. Does the template support bold fonts?
+
+Yes. First of all, you can change the default font (my personal
+suggestion is to use the `fontspec` package and `xelatex` or `lualatex`;
+then, changing your font is as easy as using `\setmainfont`). Second,
+note that in older TeX distributions, the font &lsquo;EB
+Garamond&rsquo;, shipped in the `ebgaramond` package, does *not* ship
+with a bold variant. Consider updating your TeX distribution or manually
+replacing the font. This is *not* an issue with this
+package&mdash;please see [issue #10](/../../issues/10) for more
+information.
+
 # Contributing
 
 If you require additional features, find some bugs, or just have some
@@ -161,8 +215,10 @@ generic inquiries, please just open an issue in this repository.
 
 Here is a list of contributors:
 
+- [Nikos Antoniadis (nikosantoniadis)](https://github.com/nikosantoniadis): mini-TOC extension
 - [Giuseppe (giuscri)](https://github.com/giuscri): improved cleanup operations
 - Carlo Botha: fixed `\supercite` for `chem-angew` citation style
 - [Miloslav Číž (drummyfish)](https://github.com/drummyfish): grammar/style corrections for `README` file
 - [Bastian Rieck (Pseudomanifold)](https://github.com/Pseudomanifold): original creator and maintainer
+- [Diego A. Rodriquez (diarodriguezva)](https://github.com/diarodriguezv): support with `ebgaramond` updates
 - [TonyY](https://github.com/toooonyy): `latexmkrc` updates and fixes; `hyperref` fixes
